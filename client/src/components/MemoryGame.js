@@ -8,202 +8,147 @@ import Sirenhead from '../images/sirenhead.jpg';
 import Slenderman from '../images/slenderman.jpg';
 import Cardback from '../images/cardback.jpg';
 
-const MemoryGame = () => {
-    const cardArray = [
-        {
-            type: "Peanut",
-            image: Peanut,
-            // isFlipped: true,
-        },
-        {
-            type: "scp999",
-            image: SCP999,
-            // isFlipped: true,
-        },
-        {
-            type: "scp3000",
-            image: SCP3000,
-            // isFlipped: true,
-        },
-        {
-            type: "Shyguy",
-            image: Shyguy,
-            // isFlipped: true,
-        },
-        {
-            type: "Sirenhead",
-            image: Sirenhead,
-            // isFlipped: true,
-        },
-        {
-            type: "Slenderman",
-            image: Slenderman,
-            // isFlipped: true,
-        },
-    ]
+//original 6-card array
+const cardArray = [
+    {
+        type: "Peanut",
+        image: Peanut,
+        isFlipped: false,
+    },
+    {
+        type: "scp999",
+        image: SCP999,
+        isFlipped: false,
+    },
+    {
+        type: "scp3000",
+        image: SCP3000,
+        isFlipped: false,
+    },
+    {
+        type: "Shyguy",
+        image: Shyguy,
+        isFlipped: false,
+    },
+    {
+        type: "Sirenhead",
+        image: Sirenhead,
+        isFlipped: false,
+    },
+    {
+        type: "Slenderman",
+        image: Slenderman,
+        isFlipped: false,
+    },
+]
+
+var indexTracker;
+
+//concatenate original array to generate pairs based on type
+const doubleDecker = cardArray.concat(cardArray);
+
+const MemoryGame = (props) => {
+    const [isFlipped, setIsFlipped] =useState(false);
+    const [clickedCard, setClickedCard] = useState([]);
+    const [shuffledDouble, setShuffledDouble] = useState([]);
+    const [score, setScore] = useState(0);
 
     //code sourced from Fisher-Yates shuffle algorithm after 
     //too many hours reading on Stack and other web pages
-    // const randomDeck = (arr) => {
-    //     for (var i = arr.length; i > 0; i--) {
-    //         const randomCard = Math.floor(Math.random() * i);
-    //         const currentCard = i - 1;
-    //         const tempCard = arr[currentCard];
-    //         arr[currentCard] = arr[randomCard];
-    //         arr[randomCard] = tempCard;
-    //     }
-    //     return arr;
-    // }
+    const randomDeck = (arr) => {
+        for (var i = arr.length; i > 0; i--) {
+            const randomCard = Math.floor(Math.random() * i);
+            const currentCard = i - 1;
+            const tempCard = arr[currentCard];
+            arr[currentCard] = arr[randomCard];
+            arr[randomCard] = tempCard;
+        }
+        return arr;
+    }    
 
-    // class Card extends React.Component {
-    //     render() {
-    //       let content;
-    //       if(this.props.faceUp) {
-    //         content = this.props.content;
-    //       } else {
-    //         content = ''
-    //       }
-    //       return (
-    //         <div onClick={this.props.cardClick} className={`Card ${this.props.faceUp ? 'face-up': ''}`}>
-    //           {content}
-    //         </div>
-    //       )
-    //     }
-    //   }
+    //holds the concatenated original array of 6 in state after shuffle
+    //to avoid reshuffling the board when boolean state changes
+    useEffect(() => {
+        setShuffledDouble(randomDeck(doubleDecker));
+    }, [])
 
-    //   class Board extends React.Component {
-    //     constructor(props) {
-    //       super(props)
-    //       const fronts = [
-    //         {
-    //             type: "Peanut",
-    //             image: Peanut,
-    //         },
-    //         {
-    //             type: "scp999",
-    //             image: SCP999,
-    //         },
-    //         {
-    //             type: "scp3000",
-    //             image: SCP3000,
-    //         },
-    //         {
-    //             type: "Shyguy",
-    //             image: Shyguy,
-    //         },
-    //         {
-    //             type: "Sirenhead",
-    //             image: Sirenhead,
-    //         },
-    //         {
-    //             type: "Slenderman",
-    //             image: Slenderman,
-    //         },
-    //       ]
-    //       const deck = fronts
-    //         .concat(fronts)
-    //         .sort(() => Math.random() - 0.5)
-    //         .map(f => {
-    //           return {
-    //             content: f,
-    //             faceUp: false,
-    //           }
-    //         })
-    //       this.state = {
-    //         deck: deck,
-    //         firstCard: null,
-    //       }
-    //     }
-      
-    //     flipCardTo(cardIdx, faceUp) {
-    //       this.setState({
-    //         deck: this.state.deck.map((f, i) => {
-    //           if(i === cardIdx) {
-    //             return {
-    //               content: f.content,
-    //               faceUp: !f.faceUp,
-    //             }
-    //           } else {
-    //             return f;
-    //           }
-    //         })
-    //       })
-    //     }
-      
-    //     cardClick(cardIdx) {
-    //       if(this.state.firstCard === null) {
-    //         this.setState({firstCard: cardIdx});
-    //       } else {
-    //         const firstCardContent = this.state.deck[this.state.firstCard].content;
-    //         const secondCardContent = this.state.deck[cardIdx].content;
-    //         if(firstCardContent === secondCardContent) {
-    //           this.setState({firstCard: null});
-    //         } else {
-    //           setTimeout(() => {
-    //             this.flipCardTo(this.state.firstCard, false)
-    //             this.flipCardTo(cardIdx, false)
-    //             this.setState({firstCard: null});
-    //           }, 3000)
-    //         }
-    //       }
-      
-    //       this.flipCardTo(cardIdx, !this.state.deck[cardIdx].faceUp)
-    //     }
-      
-    //     render () {
-    //       console.log(this.state.firstCard);
-    //       return (
-    //         this.state.deck.map((f, i) => {
-    //           return (<div className="Board">
-    //             <Card
-    //               cardClick={() => {this.cardClick(i)}}
-    //               content={f.content}
-    //               faceUp={f.faceUp} />
-    //           </div>)
-    //         })
-    //       )
-    //     }
-    //   }
-
-    const [clickedCard, setClickedCard] = useState([]);
-    const [cardMatch, setCardMatch] = useState([]);
-    const [score, setScore] = useState(0);
-
-    const doubleDecker = cardArray.concat(cardArray);
-    // console.log(doubleDecker);
-
-
-const cardClick = (scp, index) => {
-    // let isFlipped = false;
-    console.log("clicked");
-    // scp[index].isFlipped = !scp[index].isFlipped;
-    // setClickedCard((clickedCard) => [...clickedCard, {scp, index}]);
-    // console.log(clickedCard);
-    // // doubleDecker[index].isFlipped = !doubleDecker[index].isFlipped;
-    // doubleDecker[index].isFlipped = true;
-    // console.log(doubleDecker[index].isFlipped);
-    // if (doubleDecker[index]) {
-    //     doubleDecker.image.type;
-    // }
-}    
-
-    const scoreManager = () => {
-
+    //onClick handler
+    const cardClick = (card, index) => {
+        if (clickedCard.length < 2) {
+            setClickedCard((prev) => [...prev, index]);
+            // setClickedCard(clickedCard[0]);
+            console.log('line 80- clickedCard should be < 2');
+            // console.log(clickedCard[0] + ' line 81, clickedCard[0] should have one card if this runs');
+        } else {
+            setClickedCard([index]);
+            console.log(clickedCard[1] + ' line 84- clickedCard should be = 2');
+        }
+        const newArr = [...shuffledDouble];
+        newArr[index] = {...card, isFlipped : true};
+        if (clickedCard.length === 1) {
+            indexTracker = index;
+            console.log("indexTracker="+indexTracker + ' line 90');
+        }
+        if (clickedCard.length === 2) {
+            console.log("line 93, clickedCard[0]:"+clickedCard[0]+" clickedCard[1]:"+clickedCard[1]+" and clickedCard length === 2");
+            if (newArr[indexTracker].type !== newArr[index].type) {
+                newArr[indexTracker] = {...card, isFlipped : false};
+                newArr[index] = {...card, isFlipped : false};
+            }
+        }
+        // console.log(newArr);
+        // console.log(newArr[index]);
+        // console.log(card);
+        // console.log(indexTracker);
+        setShuffledDouble(newArr);
+        if (clickedCard.length === 2) {
+            const firstMatched = clickedCard[0];
+            const secondMatched = clickedCard[1];
+            if (firstMatched.type === secondMatched.type) {
+                console.log("line 108 These match (although probably not, runs regardless still)");
+            } else {
+                for(var i = 0; i < shuffledDouble.length; i++) {
+                    console.log("line 111 inside else statement")
+                    if (shuffledDouble[i] === firstMatched.type) {
+                        isFlipped = false;
+                    }
+                }
+                // console.log(shuffledDouble);
+                setShuffledDouble(shuffledDouble);
+            }
+        }
+        console.log("clickedCard[0]:"+clickedCard[0] + ' line 120')
+        // console.log(newArr);
+        // setClickedCard([index]);
+        // console.log(clickedCard);
     }
 
-    // useEffect(() => {
-    //     // if (clickedCard.length < 2) return;
-
-    //     const firstMatched = doubleDecker[clickedCard[0]];
-    //     const secondMatched = doubleDecker[clickedCard[1]];
-
-    //     if (secondMatched && firstMatched.type === secondMatched.type) {
-    //         setCardMatch([...cardMatch, firstMatched.type]);
-    //     }
-
+    //Logic for determining if cards pushed to array match or not
+    useEffect(() => {
+        // console.log(clickedCard);
+        if (clickedCard.length === 2) {
+            const firstMatched = clickedCard[0];
+            const secondMatched = clickedCard[1];
+            if (firstMatched.type == secondMatched.type) {
+                console.log("line 133 inside useEffect, happening too early, they do not match");
+            } else {
+                for(var i = 0; i < shuffledDouble.length; i++) {
+                    if (shuffledDouble[i] == firstMatched.type) {
+                        isFlipped = false;
+                    }
+                }
+                console.log(shuffledDouble);
+                setShuffledDouble(shuffledDouble);
+            }
+        }
+        // console.log('line 144');
         // if (clickedCard.length === 2) setTimeout(() => setClickedCard([]), 1000);
+    }, [clickedCard]);
 
-    // }, [clickedCard]);
+    //will use to manage/store score in state
+    const scoreManager = () => {
+
+    }    
 
     return (
         <>
@@ -212,14 +157,14 @@ const cardClick = (scp, index) => {
         <Link to="/">Home</Link>
         </div>
         <div className="board">           
-            {doubleDecker.map((scp, index) => {
+        {shuffledDouble
+        .map((card, index) => {
             return (
                 <div 
                 key={index}
-                onClick={() => cardClick(scp, index)}>
-                    <div key={index} className="front">
-                        {/* <img src={!scp.isFlipped ? {Cardback} : doubleDecker.image} alt="" height="210" width="190" /> */}
-                        <img src={doubleDecker.image} height="210" width="190" alt="" />
+                onClick={() => cardClick(card, index)}>
+                    <div className="front">
+                        <img src={card.isFlipped ? shuffledDouble[index].image : Cardback} height="210" width="190" alt="" />        
                     </div>
                 </div>
             );

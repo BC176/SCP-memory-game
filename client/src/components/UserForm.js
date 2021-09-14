@@ -17,7 +17,7 @@ const UserForm = () => {
             confirmPassword: confirmPassword,
         };
         try {
-            await axios.post("http://localhost:8000/api/new/", postData);
+            await axios.post("http://localhost:8000/api/new", postData);
             navigate("/");
         } catch (err) {
             setErr(err.response.data.error);

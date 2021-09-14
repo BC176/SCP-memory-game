@@ -169,39 +169,43 @@ h4 {
   background-image: url("./images/slenderman.jpg");
 }
 
-.card-face {
-  backface-visibility: hidden;
-  position: absolute;
-  width: 100%;
-  height: 100%;
-}
-
-.card-back-face {
-  transform: rotateY(180deg);
-  width: 100%;
-  height: 100%;
-}
-
-.scpCard {
-  height: 210;
-  width: 190;
+.front {
+  width: 190px;
+  height: 210px;
   background-image: url("./images/cardback.jpg");
 }
 
-.is-inactive {
+.back {
+  width: 190px;
+  height: 210px;
+}
+
+/* .card-back-face {
+  transform: rotateY(180deg);
+  width: 100%;
+  height: 100%;
+} */
+
+/* .scpCard {
+  height: 210;
+  width: 190;
+  background-image: url("./images/cardback.jpg");
+} */
+
+/* .is-inactive {
   opacity: 0;
 }
 
 .is-flipped {
   transform: rotateY(180deg);
-}
+} */
 
-.scpCard .front:hover {
+.front:hover {
   /* background: #dba8b1;  */
   /* color: #fff; */
-  transform: scale(1.02);
+  /* transform: scale(1.02); */
   /* opacity: 0.2; */
-  background-image: url("./images/fire2.gif");
+  /* background-image: url("./images/fire2.gif"); */
 }
 
 /* .scpCard .front {

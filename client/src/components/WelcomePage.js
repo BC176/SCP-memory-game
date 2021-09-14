@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "@reach/router";
+import { Link, navigate } from "@reach/router";
 import axios from "axios";
 import Cardback from '../images/cardback.jpg';
 
@@ -12,16 +12,20 @@ const WelcomePage = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         setErr("");
+        // setSuccessMessage("");
         const postData = { userName, password };
         // console.log(postData);
-        axios
-            .post("http://localhost:8000/api/login/", postData, {
-                withCredentials: true,
-            })
-            .then((response) => console.log(response)
+        axios.post("http://localhost:8000/api/login", postData)
+            //is something missing here
+            .then(
+                (response) => {
+                    // setSuccessMessage(response.data.message)
+                console.log("here")
+                navigate("/game")
+                console.log("here");} 
 
             )
-            .catch((err) => setErr(err.response.data.err));
+            .catch((err) => console.log(err.response.data.err));
     }
 
     return (
@@ -47,7 +51,7 @@ const WelcomePage = () => {
                     </div>
                 </div>
                 <div className="centerButtons">
-                    <Link to="/game"><button type="submit">Submit</button></Link>
+                    <button type="submit">Submit</button>
                 </div>
                 <div className="centerLinks">       
                 <Link to={"/new"}> Register a New Sacrifice</Link>
@@ -56,9 +60,9 @@ const WelcomePage = () => {
             <footer>
             <Link to={"/high-scores"}>High Scores</Link>
             <br />
-            <p style={{fontWeight:"bold", color:"black"}}>SCP was chosen as the theme by my son, this game was built for him!</p>
-            <p style={{fontWeight:"bold", color:"black"}}>Most monsters are of SCP origin, with a couple of special guests...</p>
-            <p>The customer is always right 😁</p>
+            <p style={{fontWeight:"bold", color:"white"}}>SCP was chosen as the theme by my son, this game was built for him!</p>
+            <p style={{fontWeight:"bold", color:"white"}}>Most monsters are of SCP origin, with a couple of special guests...</p>
+            <p style={{fontWeight:"bold", color:"white"}}>The customer is always right 😁</p>
             </footer>
         </form>
         
