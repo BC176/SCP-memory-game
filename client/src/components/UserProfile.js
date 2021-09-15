@@ -13,7 +13,7 @@ const UserProfile = (props) => {
         axios
             .get(`http://localhost:8000/api/user/${userID}`)
             .then((queriedUser) => {
-                // console.log(queriedUser.data.user);
+                console.log(queriedUser.data.user);
                 setUserInfo(queriedUser.data.user);
             })
             .catch((err) => console.log(err.response));

@@ -13,9 +13,9 @@ const WelcomePage = () => {
         e.preventDefault();
         setErr("");
         // setSuccessMessage("");
-        const postData = { userName, password };
-        // console.log(postData);
-        axios.post("http://localhost:8000/api/login", postData)
+        const userData = { userName, password };
+        // console.log(userData);
+        axios.post("http://localhost:8000/api/login", userData)
             //is something missing here
             .then(
                 (response) => {

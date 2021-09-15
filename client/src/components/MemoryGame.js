@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from '@reach/router';
+import axios from "axios";
 import Peanut from '../images/peanut.jpg';
 import SCP999 from '../images/scp999.jpg';
 import SCP3000 from '../images/scp3000.jpg';
@@ -48,13 +49,13 @@ var indexTracker;
 const doubleDecker = cardArray.concat(cardArray);
 
 const MemoryGame = (props) => {
-    const [isFlipped, setIsFlipped] =useState(false);
+    const [isFlipped, setIsFlipped] = useState(false);
     const [clickedCard, setClickedCard] = useState([]);
     const [shuffledDouble, setShuffledDouble] = useState([]);
+    const [userInfo, setUserInfo] = useState("");
     const [score, setScore] = useState(0);
 
-    //code sourced from Fisher-Yates shuffle algorithm after 
-    //too many hours reading on Stack and other web pages
+    //code sourced from Fisher-Yates shuffle algorithm
     const randomDeck = (arr) => {
         for (var i = arr.length; i > 0; i--) {
             const randomCard = Math.floor(Math.random() * i);
@@ -129,7 +130,7 @@ const MemoryGame = (props) => {
         if (clickedCard.length === 2) {
             const firstMatched = clickedCard[0];
             const secondMatched = clickedCard[1];
-            if (firstMatched.type == secondMatched.type) {
+            if (firstMatched.type === secondMatched.type) {
                 console.log("line 133 inside useEffect, happening too early, they do not match");
             } else {
                 for(var i = 0; i < shuffledDouble.length; i++) {
@@ -148,12 +149,12 @@ const MemoryGame = (props) => {
     //will use to manage/store score in state
     const scoreManager = () => {
 
-    }    
+    }  
 
     return (
         <>
         <div className="mainTop">
-        <h5>Match any two SCP's, and you just may summon them. Pray they are not hungry.</h5>
+        <h5>Match any two Monsters, and you just may summon one. Pray they are not hungry.</h5>
         <Link to="/">Home</Link>
         </div>
         <div className="board">           

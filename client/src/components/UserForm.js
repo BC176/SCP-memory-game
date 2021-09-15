@@ -11,13 +11,13 @@ const UserForm = () => {
 
     const onSubmitHandler = async (e) => {
         e.preventDefault();
-        const postData = {
+        const userData = {
             userName: userName,
             password: password,
             confirmPassword: confirmPassword,
         };
         try {
-            await axios.post("http://localhost:8000/api/new", postData);
+            await axios.post("http://localhost:8000/api/new", userData);
             navigate("/");
         } catch (err) {
             setErr(err.response.data.error);
